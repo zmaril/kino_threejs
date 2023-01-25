@@ -1,15 +1,15 @@
-defmodule KinoMapLibre.MixProject do
+defmodule KinoThreeJS.MixProject do
   use Mix.Project
 
-  @version "0.1.7"
-  @description "MapLibre integration with Livebook"
+  @version "0.1.0"
+  @description "three.js integration with Livebook"
 
   def project do
     [
-      app: :kino_maplibre,
+      app: :kino_threejs,
       version: @version,
       description: @description,
-      name: "KinoMapLibre",
+      name: "KinoThreeJS",
       elixir: "~> 1.13",
       start_permanent: Mix.env() == :prod,
       deps: deps(),

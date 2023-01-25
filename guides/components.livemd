@@ -3,7 +3,7 @@
 ```elixir
 Mix.install([
   {:maplibre, "~> 0.1.1"},
-  {:kino_maplibre, "~> 0.1.7"},
+  {:kino_threejs, path: "../kino_threejs"},
   {:req, "~> 0.3.1"}
 ])
 
