@@ -20,7 +20,7 @@ defmodule KinoThreeJS.MixProject do
 
   def application do
     [
-      mod: {KinoMapLibre.Application, []}
+      mod: {KinoThreeJS.Application, []}
     ]
   end
 

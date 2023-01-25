@@ -1,0 +1,84 @@
+# Components
+
+```elixir
+Mix.install([
+  {:maplibre, "~> 0.1.1"},
+  {:kino_threejs, path: "../kino_threejs"},
+  {:req, "~> 0.3.1"}
+])
+
+alias MapLibre, as: Ml
+```
+
+## Kinos
+
+### MapLibre
+
+This integration automatically renders the `MapLibre` struct as a map:
+
+```elixir
+Ml.new(
+  center: {-90.73414, 14.55524},
+  zoom: 13,
+  style: "https://api.maptiler.com/maps/basic/style.json?key=get_your_own_OpIi9ZULNHzrESv6T2vL"
+)
+|> Ml.update_layer("building",
+  paint: [
+    fill_color: ["interpolate", ["exponential", 0.5], ["zoom"], 15, "#e2714b", 22, "#eee695"],
+    fill_opacity: ["interpolate", ["exponential", 0.5], ["zoom"], 15, 0, 22, 1]
+  ]
+)
+```
+
+### Kino.MapLibre
+
+`Kino.MapLibre` allows you to render a regular `MapLibre` map and then adds an initial support for the [Evented](https://maplibre.org/maplibre-gl-js-docs/api/events/#evented) API to update the map.
+
+There are two types of maps: static and dynamic. Essentially, a dynamic map can be updated on
+the fly without having to be re-evaluated. To make a map dynamic you need to wrap it in `Kino.MapLibre.new/1`:
+
+```elixir
+map =
+  Ml.new(center: {-68.13734351262877, 45.137451890638886}, zoom: 3)
+  |> Kino.MapLibre.new()
+```
+
+Having our dynamic map, we can now add new markers to the map at any point:
+
+```elixir
+Kino.MapLibre.add_marker(map, {-69, 50})
+Kino.MapLibre.add_marker(map, {-68, 45}, color: "red", draggable: true)
+```
+
+All manipulation functions are available for the static map as well. We just
+need to build it at once:
+
+```elixir
+Ml.new(center: {-68.13734351262877, 45.137451890638886}, zoom: 3)
+|> Kino.MapLibre.add_marker({-68, 45}, color: "red", draggable: true)
+|> Kino.MapLibre.add_marker({-69, 50})
+```
+
+You can make a static map dynamic at any moment wrapping it in `Kino.MapLibre.new/1`
+
+```elixir
+map =
+  Ml.new(center: {-68.13734351262877, 45.137451890638886}, zoom: 3)
+  # These markers will appear on the initial map render
+  |> Kino.MapLibre.add_marker({-68, 45}, color: "red", draggable: true)
+  |> Kino.MapLibre.add_marker({-69, 50})
+  # This makes the map dynamic for further interactions
+  |> Kino.MapLibre.new()
+```
+
+Let's add navigation controls on the fly!
+
+```elixir
+Kino.MapLibre.add_nav_controls(map)
+```
+
+## Smart cells
+
+The following Smart cells are available:
+
+* **Map cell** - for building maps with geojson data

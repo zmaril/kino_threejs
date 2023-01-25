@@ -1,4 +1,4 @@
-# KinoThreejs
+# KinoThreeJS
 
 [three.js](https://threejs.org) integration with
 [Kino](https://github.com/livebook-dev/kino) for
